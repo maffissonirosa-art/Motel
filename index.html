@@ -1,0 +1,125 @@
+<!doctype html><html lang="pt-BR"><head><meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover"><title>Controle do Motel</title>
+<style>
+:root{--bg:#0a0b0e;--fg:#f4f5f7;--cd:#101216;--br:#23262d;--gr:#8b919d;--pri:#a3e635;--gold:#a3e635;--am:#f59e0b;--ok:#4ade80;--bad:#ef4444;box-sizing:border-box;padding-top:env(safe-area-inset-top,0px);padding-bottom:env(safe-area-inset-bottom,0px)}
+*{box-sizing:border-box}html,body{margin:0}body{font:15px/1.4 system-ui,-apple-system,"Segoe UI",Roboto,sans-serif;background:var(--bg);color:var(--fg);min-height:100%}
+header{border-bottom:1px solid var(--br);padding:14px 20px;display:flex;justify-content:space-between;align-items:center;gap:12px}
+.hl{display:flex;gap:12px;align-items:center;min-width:0}.lg{width:38px;height:38px;border-radius:10px;background:#1a2410;border:1px solid #2c3d14;display:grid;place-items:center;font-size:18px;flex:none}
+h1{margin:0;font-size:15px}header small{color:var(--gr);font-size:12px;display:block}.hr{display:flex;gap:16px;align-items:center;text-align:right;color:var(--gr)}.hr b{color:var(--fg)}#ck{color:var(--fg);font-weight:600}
+#ly{max-width:1240px;margin:auto;display:flex;gap:28px;padding:24px 16px}aside{width:200px;flex:none}nav{display:flex;flex-direction:column;gap:6px}
+nav button{background:transparent;border:0;color:var(--gr);text-align:left;font-weight:500;padding:12px 14px;min-height:46px}nav button.on{background:#1a2410;color:var(--pri)}
+main{flex:1;min-width:0}h2.t{margin:0;font-size:22px}p.s{margin:2px 0 18px;color:var(--gr)}
+@media(max-width:800px){#ly{flex-direction:column;gap:12px;padding:12px}aside{width:100%}nav{flex-direction:row;overflow-x:auto}nav button{flex:1;text-align:center;white-space:nowrap}.hr small{display:none}}
+button,input,select{font:inherit;padding:12px 14px;border-radius:12px;border:1px solid var(--br);background:var(--cd);color:var(--fg);min-height:46px}
+input,select{width:100%;margin-top:4px;color-scheme:dark}input:focus,select:focus{outline:2px solid var(--pri);outline-offset:1px}
+button{font-weight:600;cursor:pointer}button:active{transform:scale(.98)}
+.p,.g{background:var(--pri);color:#0a0b0e;border:0}.d{background:var(--bad);color:#fff;border:0}
+.on{border-color:var(--pri);background:#a3e63522;box-shadow:0 0 0 2px var(--pri) inset}nav button.on{box-shadow:none}
+.row{display:flex;gap:8px;flex-wrap:wrap;margin:10px 0}.row>*{flex:1;min-width:92px}
+.card{background:var(--cd);border:1px solid var(--br);border-radius:16px;padding:14px;margin-bottom:12px}label{font-size:13px;font-weight:600;color:var(--gr)}
+.sum{display:grid;grid-template-columns:repeat(auto-fit,minmax(150px,1fr));gap:12px;margin-bottom:20px}
+.sum div{background:var(--cd);border:1px solid var(--br);border-radius:16px;padding:16px;position:relative;color:var(--gr)}.sum b{display:block;font-size:26px;color:var(--fg);margin:8px 0 2px}.sum small{font-size:12px}
+.sum i{position:absolute;right:14px;top:14px;width:30px;height:30px;border-radius:9px;background:#1a1d23;display:grid;place-items:center;font-style:normal;font-size:14px}.sum .am i{background:#3a2a0a}.sum .am b{color:var(--am)}
+.pills{display:flex;gap:8px;flex-wrap:wrap;margin-bottom:16px}.pills button{border-radius:99px;min-height:38px;padding:6px 16px;background:transparent;color:var(--gr);border:1px solid var(--br)}.pills button.on{background:var(--pri);color:#0a0b0e;border-color:var(--pri);box-shadow:none}.pills small{opacity:.7;margin-left:4px}
+.gr2{display:grid;grid-template-columns:repeat(auto-fill,minmax(270px,1fr));gap:14px}
+.sc{background:var(--cd);border:1px solid var(--br);border-radius:16px;padding:16px;display:flex;flex-direction:column;gap:10px;min-height:190px}
+.top{display:flex;justify-content:space-between;align-items:center}.top b{font-weight:500;font-size:17px}.sub{color:var(--gr);font-size:12px;margin-top:-6px}
+.badge{font-size:12px;padding:2px 10px;border-radius:8px;font-weight:600}.b-livre{color:var(--ok);background:#14532d66}.b-ocup{color:var(--pri);background:#3f620066}.b-limp{color:var(--am);background:#78350f66}
+.tm{font-size:23px;font-weight:700;color:var(--pri);font-variant-numeric:tabular-nums}.det{font-size:12px;color:var(--am)}.det.ok{color:var(--gr)}.desc{font-size:13px;color:var(--gr);margin:0}
+.bt{width:100%;margin-top:auto;border-radius:99px}.at{background:#1b1f27;color:#fff;border:0}.ol{background:transparent;border:1px solid #2f343d;color:#fff}.nt{font-size:12px;color:var(--gr)}
+#mo{position:fixed;inset:0;background:#000c;display:none;align-items:flex-end;justify-content:center;z-index:9}#mo.s{display:flex}
+#md{background:var(--cd);width:100%;max-width:520px;max-height:92%;overflow:auto;border-radius:22px 22px 0 0;padding:18px 16px 20px}#md h2{margin:0 0 12px}@media(min-width:600px){#mo{align-items:center}#md{border-radius:22px}}
+pre.r{font:12px/1.3 ui-monospace,Menlo,Consolas,monospace;background:#fff;color:#000;padding:12px;overflow-x:auto;border-radius:10px}
+table{width:100%;border-collapse:collapse}td{padding:10px 4px;border-bottom:1px solid var(--br)}tr:last-child td{border-bottom:0}
+#pr{display:none}@media print{body>*:not(#pr){display:none!important}#pr{display:block}#pr pre{font:11px/1.2 monospace;margin:0;color:#000}}
+</style></head><body>
+<header><div class="hl"><div class="lg">🌙</div><div><h1 id="hd"></h1><small id="tg"></small></div></div><div class="hr"><span>Ocupação <b id="oc"></b></span><div><span id="ck"></span><small id="dtx"></small></div></div></header>
+<div id="ly"><aside><nav><button data-v="p">▦ Painel</button><button data-v="h">↺ Histórico</button><button data-v="c">⚙ Configurações</button></nav></aside><main id="mn"></main></div><div id="mo"><div id="md"></div></div><div id="pr"></div>
+<script>
+const $=s=>document.querySelector(s),E=v=>String(v??'').replace(/[&<>"']/g,c=>({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[c]));
+const R=v=>'R$ '+(+v||0).toFixed(2).replace('.',','),p2=n=>String(n).padStart(2,'0');
+const dt=t=>{const x=new Date(t);return p2(x.getDate())+'/'+p2(x.getMonth()+1)+'/'+x.getFullYear()},hm=t=>{const x=new Date(t);return p2(x.getHours())+':'+p2(x.getMinutes())};
+const PAY=['Dinheiro','PIX','Cartão'];
+function fresh(){return{cfg:{name:'MOTEL CAVANY',slogan:'O melhor para o seu conforto',footer:'Obrigado pela preferência!|Volte sempre ao Motel Cavany.',paper:48,tol:15},
+ suites:[1,2,3,4,5,6].map(i=>({id:i,name:'Suíte '+p2(i),price:60,hours:3,extra:20,daily:200,status:'livre',stay:null})),
+ products:[['Água',5],['Refrigerante',8],['Cerveja',12],['Chocolate',10]].map(x=>({name:x[0],price:x[1]})),history:[],nid:100}}
+let D;try{D=JSON.parse(localStorage.getItem('motel'))}catch{}D=D||fresh();let V='p',F='t',DAY='';
+const save=()=>{try{localStorage.setItem('motel',JSON.stringify(D))}catch{alert('Não foi possível salvar os dados neste aparelho.')}};
+function calc(s){const t=s.stay,over=Date.now()-t.start-t.hours*36e5-D.cfg.tol*6e4,eh=over>0?Math.ceil(over/36e5):0,extra=eh*t.extra,cons=t.items.reduce((a,i)=>a+i.qty*i.price,0);return{eh,extra,cons,total:t.base+extra+cons}}
+function receipt(r){const w=+D.cfg.paper,L=c=>c.repeat(w),ctr=t=>' '.repeat(Math.max(0,(w-t.length)>>1))+t,
+ row=(a,b)=>{const g=w-a.length-b.length;return a+(g>=3?' '+'.'.repeat(g-2)+' ':' '.repeat(Math.max(1,g)))+b},m=Math.round((r.end-r.start)/6e4),n=Date.now(),o=[L('='),ctr(D.cfg.name)];
+ if(D.cfg.slogan)o.push(ctr(D.cfg.slogan));
+ o.push(L('='),'Data/Hora Emissão: '+dt(n)+' '+hm(n),'Apartamento: '+r.suite,L('-'),'CONTROLE DE ESTADIA:','Entrada: '+dt(r.start)+' às '+hm(r.start),'Saída:   '+dt(r.end)+' às '+hm(r.end),'Permanência: '+p2(m/60|0)+'h'+p2(m%60),L('-'),'ITENS CONSUMIDOS:');
+ if(!r.items.length)o.push('(nenhum)');r.items.forEach(i=>o.push(row(i.qty+'x '+i.name,R(i.qty*i.price))));
+ o.push(L('-'),'RESUMO DOS VALORES:',row('Taxa de Estadia',R(r.base)));if(r.extra)o.push(row('Adicional excedente',R(r.extra)));
+ o.push(row('Total de Consumo',R(r.cons)));if(r.discount)o.push(row('Desconto','-'+R(r.discount)));
+ const t='TOTAL GERAL A PAGAR:',v=R(r.total);o.push(L('-'),t+' '.repeat(Math.max(1,w-t.length-v.length))+v,'Pagamento: '+r.payment,L('='));
+ D.cfg.footer.split('|').forEach(x=>o.push(ctr(x.trim())));o.push(L('='));return o.join('\n')}
+function modal(h){$('#md').innerHTML=h;$('#mo').classList.add('s')}function closeM(){$('#mo').classList.remove('s');render()}
+function tick(){const n=new Date();$('#ck').textContent=n.toLocaleTimeString('pt-BR');$('#dtx').textContent=n.toLocaleDateString('pt-BR',{weekday:'short',day:'numeric',month:'short'});
+ document.querySelectorAll('[data-t]').forEach(e=>{const el=Date.now()-e.dataset.t,f=x=>p2(Math.floor(x));e.textContent=f(el/36e5)+':'+f(el%36e5/6e4)+':'+f(el%6e4/1e3)})}
+const dur=ms=>{ms=Math.max(0,ms);return p2(ms/36e5|0)+':'+p2(ms%36e5/6e4|0)};
+function stt(s){if(!s.stay)return s.status;const el=Date.now()-s.stay.start,per=s.stay.hours*36e5;return el<=per?'ocupada':el<=per+D.cfg.tol*6e4?'tolerancia':'extra'}
+function render(){const ss=D.suites.map(s=>stt(s)),oc=ss.filter(x=>x!=='livre'&&x!=='limpeza').length;$('#hd').textContent=D.cfg.name;$('#tg').textContent=D.cfg.slogan;$('#oc').textContent=oc+'/'+D.suites.length;
+ document.querySelectorAll('nav button').forEach(b=>b.classList.toggle('on',b.dataset.v===V));$('#mn').innerHTML=V==='p'?home():V==='h'?hist():conf();tick()}
+function card(s,st){const t=s.stay,B={livre:['b-livre','Livre'],limpeza:['b-limp','Limpeza']}[st]||['b-ocup','Ocupada'],
+ top=`<div class="top"><b>${E(s.name)}</b><span class="badge ${B[0]}">${B[1]}</span></div><div class="sub">Período ${s.hours}h por ${R(s.price)}</div>`;let b='';
+ if(st==='livre')b=`<p class="desc">Pronta para check-in. Hora extra de ${R(s.extra)} por hora iniciada.</p><button class="p bt" data-a="cin" data-id="${s.id}">→ Fazer check-in</button>`;
+ else if(st==='limpeza')b=`<p class="desc">Aguardando limpeza. Libere a suíte quando ela estiver pronta.</p><button class="ol bt" data-a="rel" data-id="${s.id}">✓ Concluir limpeza</button><div class="nt">Limpeza iniciada após o checkout</div>`;
+ else{const c=calc(s),el=Date.now()-t.start,per=t.hours*36e5,cs=' · consumo '+R(c.cons);
+  b=`<div class="tm" data-t="${t.start}"></div>${st==='extra'?`<div class="det">+${c.eh}h extra (${R(c.extra)})${cs}</div>`:st==='tolerancia'?`<div class="det">Na tolerância de ${D.cfg.tol} min${cs}</div>`:`<div class="det ok">Restam ${dur(per-el)}${cs}</div>`}<button class="at bt" data-a="cout" data-id="${s.id}">Atender →</button>`}
+ return`<div class="sc">${top}${b}</div>`}
+function home(){const t0=new Date().setHours(0,0,0,0),h=D.history.filter(x=>x.end>=t0),ss=D.suites.map(s=>[s,stt(s)]),n=k=>ss.filter(x=>x[1]===k).length,O=['ocupada','tolerancia','extra'],occ=ss.filter(x=>O.includes(x[1])).length;
+ const sum=[['▭','Ocupação',occ+'/'+D.suites.length,'suítes ocupadas',''],['▣','Receita de hoje',R(h.reduce((a,x)=>a+x.total,0)),h.length+' contas encerradas',''],['◷','No período',n('ocupada'),'dentro do horário contratado',''],['◔','Em hora extra',n('extra')+n('tolerancia'),'verificar no checkout','am']];
+ const fl=[['t','Todas',ss.length],['l','Livres',n('livre')],['o','Ocupadas',occ],['x','Limpeza',n('limpeza')]],
+ list=F==='l'?ss.filter(x=>x[1]==='livre'):F==='o'?ss.filter(x=>O.includes(x[1])):F==='x'?ss.filter(x=>x[1]==='limpeza'):ss;
+ return`<h2 class="t">Painel da recepção</h2><p class="s">Visão geral das suítes, estadias ativas e receita do dia.</p><div class="sum">${sum.map(x=>`<div class="${x[4]}"><i>${x[0]}</i>${x[1]}<b>${x[2]}</b><small>${x[3]}</small></div>`).join('')}</div>
+ <div class="pills">${fl.map(x=>`<button class="${F===x[0]?'on':''}" data-a="flt" data-k="${x[0]}">${x[1]}<small>${x[2]}</small></button>`).join('')}</div><div class="gr2">${list.map(x=>card(x[0],x[1])).join('')||'<div class="card">Nenhuma suíte nesta lista.</div>'}</div>`}
+function exportCsv(){if(!D.history.length)return alert('Não há registros para exportar.');
+ const q=v=>'"'+String(v).replace(/"/g,'""')+'"',n=v=>(+v||0).toFixed(2).replace('.',','),L=['ID;Suíte;Entrada;Saída;Hospedagem;Consumos;Adicionais;Desconto;Total;Pagamento;Itens'];
+ D.history.forEach(r=>L.push([r.id,q(r.suite),q(dt(r.start)+' '+hm(r.start)),q(dt(r.end)+' '+hm(r.end)),n(r.base),n(r.cons),n(r.extra),n(r.discount),n(r.total),q(r.payment),q(r.items.map(i=>i.qty+'x '+i.name).join(', '))].join(';')));
+ const a=document.createElement('a');a.href=URL.createObjectURL(new Blob(['\ufeff'+L.join('\r\n')],{type:'text/csv;charset=utf-8'}));a.download='historico-'+new Date().toISOString().slice(0,10)+'.csv';document.body.append(a);a.click();a.remove()}
+function hist(){const d=DAY||new Date().toISOString().slice(0,10),a=new Date(d+'T00:00:00').getTime(),h=D.history.filter(x=>x.end>=a&&x.end<a+864e5),by={};h.forEach(x=>by[x.payment]=(by[x.payment]||0)+x.total);
+ return`<div class="card"><label>Dia</label><input type="date" id="dy" value="${d}"><h2 style="margin:8px 0 2px">${R(h.reduce((a,x)=>a+x.total,0))}</h2>${h.length} saídas · ${Object.entries(by).map(([k,v])=>k+' '+R(v)).join(' · ')}</div>
+ <div class="card"><table>${h.map(x=>`<tr data-a="rec" data-id="${x.id}" style="cursor:pointer"><td>${hm(x.end)}</td><td>${E(x.suite)}</td><td>${E(x.payment)}</td><td>${R(x.total)}</td></tr>`).join('')||'<tr><td>Nenhum registro.</td></tr>'}</table></div><div class="row"><button class="p" data-a="csv">⬇ Exportar CSV</button><button class="d" data-a="clr">🗑 Excluir histórico</button></div>`}
+const inp=(path,l,v,t='text')=>`<div><label>${l}</label><input type="${t}" ${t==='number'?'step="0.01" inputmode="decimal"':''} data-k="${path}" value="${E(v)}"></div>`;
+function conf(){const c=D.cfg;return`<div class="card"><b>Motel</b>${inp('cfg.name','Nome',c.name)}${inp('cfg.slogan','Slogan',c.slogan)}${inp('cfg.footer','Rodapé (use | para separar linhas)',c.footer)}
+ <label>Papel da impressora</label><select data-k="cfg.paper"><option value="32" ${c.paper==32?'selected':''}>58 mm</option><option value="48" ${c.paper==48?'selected':''}>80 mm</option></select>${inp('cfg.tol','Tolerância (minutos)',c.tol,'number')}</div>
+ <b>Suítes</b>${D.suites.map((s,i)=>`<div class="card"><div class="row">${inp(`suites.${i}.name`,'Nome',s.name)}${inp(`suites.${i}.price`,'Valor do período',s.price,'number')}${inp(`suites.${i}.hours`,'Horas do período',s.hours,'number')}${inp(`suites.${i}.extra`,'Hora adicional',s.extra,'number')}${inp(`suites.${i}.daily`,'Diária',s.daily,'number')}</div><button class="d" data-a="delsuite" data-id="${s.id}">Excluir</button></div>`).join('')}<button class="p" data-a="addsuite" style="width:100%;margin-bottom:12px">+ Suíte</button>
+ <b>Produtos</b>${D.products.map((x,i)=>`<div class="card"><div class="row">${inp(`products.${i}.name`,'Nome',x.name)}${inp(`products.${i}.price`,'Preço',x.price,'number')}<button class="d" data-a="delprod" data-i="${i}" style="align-self:end">Excluir</button></div></div>`).join('')}<button class="p" data-a="addprod" style="width:100%">+ Produto</button>
+ <p style="color:var(--gr);font-size:13px">Os dados ficam salvos neste aparelho. Use o mesmo aparelho/navegador sempre.</p>`}
+function entryM(s){let h=s.hours,pr=s.price;const draw=()=>{modal(`<h2>${E(s.name)} — Entrada</h2><div class="row"><button data-x="${s.hours}|${s.price}" class="${h==s.hours?'on':''}">${s.hours}h · ${R(s.price)}</button>${s.daily>0?`<button data-x="24|${s.daily}" class="${h==24?'on':''}">Diária · ${R(s.daily)}</button>`:''}</div>
+ <label>Valor (R$)</label><input id="pv" type="number" step="0.01" value="${pr}"><div class="row"><button class="g" id="ok">CONFIRMAR ENTRADA</button><button id="cn">Cancelar</button></div>`);
+ $('#md').querySelectorAll('[data-x]').forEach(b=>b.onclick=()=>{[h,pr]=b.dataset.x.split('|').map(Number);draw()});
+ $('#pv').oninput=()=>pr=+$('#pv').value||0;$('#cn').onclick=closeM;
+ $('#ok').onclick=()=>{s.stay={start:Date.now(),hours:h,base:pr,extra:s.extra,items:[]};s.status='ocupada';save();closeM()}};draw()}
+function stayM(s,pay=''){const c=calc(s),t=s.stay;
+ modal(`<h2>${E(s.name)}</h2><div class="card">Entrada: ${dt(t.start)} ${hm(t.start)}<br>Previsto até: ${hm(t.start+t.hours*36e5)}<br>Tempo: <b data-t="${t.start}" data-p="${t.hours}"></b>${c.eh?`<br>Excedente: ${c.eh}h · ${R(c.extra)}`:''}</div>
+ <b>Consumos</b><table>${t.items.map((i,n)=>`<tr><td>${i.qty}x ${E(i.name)}</td><td>${R(i.qty*i.price)}</td><td><button class="d" data-rm="${n}">✕</button></td></tr>`).join('')||'<tr><td>Nenhum</td></tr>'}</table>
+ <div class="row">${D.products.map((x,i)=>`<button data-pd="${i}">+ ${E(x.name)}<br>${R(x.price)}</button>`).join('')}</div>
+ <div class="card"><label>Desconto (R$)</label><input id="ds" type="number" step="0.01" value="0"><h2 id="tt" style="margin:6px 0 0">TOTAL ${R(c.total)}</h2></div>
+ <label>Pagamento</label><div class="row">${PAY.map(x=>`<button data-pay="${x}" class="${pay==x?'on':''}">${x}</button>`).join('')}</div>
+ <div class="row"><button class="g" id="fn">FINALIZAR</button><button id="cl">Fechar</button></div><button class="d" id="cc" style="width:100%">Cancelar entrada (lançada por engano)</button>`);
+ const m=$('#md');tick();m.querySelectorAll('[data-rm]').forEach(b=>b.onclick=()=>{t.items.splice(+b.dataset.rm,1);save();stayM(s,pay)});
+ m.querySelectorAll('[data-pd]').forEach(b=>b.onclick=()=>{const x=D.products[+b.dataset.pd],f=t.items.find(i=>i.name===x.name&&i.price===x.price);f?f.qty++:t.items.push({name:x.name,price:x.price,qty:1});save();stayM(s,pay)});
+ m.querySelectorAll('[data-pay]').forEach(b=>b.onclick=()=>{const d=$('#ds').value;stayM(s,b.dataset.pay);$('#ds').value=d;$('#ds').oninput()});
+ $('#ds').oninput=()=>$('#tt').textContent='TOTAL '+R(Math.max(0,c.total-(+$('#ds').value||0)));$('#cl').onclick=closeM;
+ $('#cc').onclick=()=>{if(confirm('Cancelar esta entrada? Nada será registrado.')){s.stay=null;s.status='livre';save();closeM()}};
+ $('#fn').onclick=()=>{if(!pay)return alert('Informe a forma de pagamento.');const d=Math.min(+$('#ds').value||0,c.total),r={id:D.nid++,suite:s.name,start:t.start,end:Date.now(),base:t.base,extra:c.extra,cons:c.cons,items:t.items,discount:d,total:c.total-d,payment:pay};
+  D.history.unshift(r);s.stay=null;s.status='limpeza';save();recM(r)}}
+function recM(r){const tx=receipt(r);modal(`<h2>Comprovante</h2><pre class="r">${E(tx)}</pre><div class="row"><button class="p" id="pb">IMPRIMIR</button><button class="g" id="ok">CONCLUIR</button></div>`);
+ $('#ok').onclick=closeM;$('#pb').onclick=()=>{$('#pr').innerHTML='<pre>'+E(tx)+'</pre>';const st=document.createElement('style'),mm=D.cfg.paper==32?58:80;st.textContent=`@page{size:${mm}mm auto;margin:2mm}#pr pre{width:${mm-6}mm}`;document.head.append(st);print();setTimeout(()=>st.remove(),2000)}}
+document.addEventListener('click',e=>{const b=e.target.closest('[data-a],nav button');if(!b)return;
+ if(b.dataset.v){V=b.dataset.v;return render()}const a=b.dataset.a,id=+b.dataset.id;
+ if(a==='cin')entryM(D.suites.find(x=>x.id===id));if(a==='cout')stayM(D.suites.find(x=>x.id===id));if(a==='rel'){D.suites.find(x=>x.id===id).status='livre';save();render()}if(a==='flt'){F=b.dataset.k;render()}
+ if(a==='csv')exportCsv();if(a==='clr'){if(!D.history.length)return alert('Não há registros para excluir.');if(confirm('Excluir TODO o histórico? Não dá para desfazer. Exporte o CSV antes.')&&confirm('Tem certeza? Todos os registros serão apagados.')){D.history=[];save();render()}}
+ if(a==='rec')recM(D.history.find(x=>x.id===id));
+ if(a==='addsuite'){D.suites.push({id:D.nid++,name:'Nova suíte',price:60,hours:3,extra:20,daily:200,status:'livre',stay:null});save();render()}
+ if(a==='delsuite'){const s=D.suites.find(x=>x.id===id);if(s.stay)return alert('Suíte ocupada não pode ser excluída.');if(confirm('Excluir '+s.name+'?')){D.suites=D.suites.filter(x=>x!==s);save();render()}}
+ if(a==='addprod'){D.products.push({name:'Novo produto',price:0});save();render()}
+ if(a==='delprod'&&confirm('Excluir produto?')){D.products.splice(+b.dataset.i,1);save();render()}});
+document.addEventListener('change',e=>{const k=e.target.dataset.k;if(e.target.id==='dy'){DAY=e.target.value;V='h';return render()}
+ if(!k)return;const ks=k.split('.'),last=ks.pop();let o=D;ks.forEach(x=>o=o[x]);const n=e.target.type==='number'||k==='cfg.paper';o[last]=n?(+e.target.value||0):e.target.value;save();$('#hd').textContent=D.cfg.name});
+document.querySelectorAll('nav button').forEach(b=>b.classList.remove('on'));
+setInterval(tick,1000);setInterval(()=>{if(V==='p'&&!$('#mo').classList.contains('s'))render()},30000);render();
+</script></body></html>
